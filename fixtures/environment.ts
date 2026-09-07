@@ -16,11 +16,11 @@ function read(name: string, required: boolean): string {
   return value;
 }
 
-/** The name the header shows once signed in. */
-export const displayName = (): string => read("DISPLAY_NAME", true);
+/** The tenant the account belongs to. */
+export const companyCode = (): string => read("COMPANY_CODE", true);
 
 /** Secret. Read from PASSWORD; never logged, never committed. */
 export const password = (): string => read("PASSWORD", true);
 
-/** The account used to sign in. */
+/** The account the test signs in as. */
 export const username = (): string => read("USERNAME", true);

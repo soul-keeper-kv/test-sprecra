@@ -1,0 +1,213 @@
+{
+  "irVersion": 1,
+  "name": "[Integration Test][Login] TC01 - Verify user logs in successfully with valid credentials",
+  "description": "A registered user signs in from the Login page with a valid username, password and company code, and lands on the Home page.",
+  "tags": ["login", "integration", "smoke"],
+  "parameters": [
+    {
+      "name": "username",
+      "type": "string",
+      "required": true,
+      "description": "The account the test signs in as."
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "required": true,
+      "secret": true,
+      "description": "Supplied by the Environment at run time; never stored in the model."
+    },
+    {
+      "name": "companyCode",
+      "type": "string",
+      "required": true,
+      "description": "The tenant the account belongs to."
+    }
+  ],
+  "setup": [],
+  "steps": [
+    {
+      "id": "s1-open-login",
+      "sourceStepIds": ["ts-1"],
+      "description": "Navigate to the Login page",
+      "action": "navigate",
+      "target": {
+        "page": "LoginPage"
+      }
+    },
+    {
+      "id": "s2-username-visible",
+      "sourceStepIds": ["ts-1"],
+      "description": "The Username field is displayed",
+      "action": "assert",
+      "target": {
+        "page": "LoginPage",
+        "element": "usernameInput"
+      },
+      "assertion": {
+        "condition": "visible"
+      }
+    },
+    {
+      "id": "s3-password-visible",
+      "sourceStepIds": ["ts-1"],
+      "description": "The Password field is displayed",
+      "action": "assert",
+      "target": {
+        "page": "LoginPage",
+        "element": "passwordInput"
+      },
+      "assertion": {
+        "condition": "visible"
+      }
+    },
+    {
+      "id": "s4-company-visible",
+      "sourceStepIds": ["ts-1"],
+      "description": "The Company Code field is displayed",
+      "action": "assert",
+      "target": {
+        "page": "LoginPage",
+        "element": "companyCodeInput"
+      },
+      "assertion": {
+        "condition": "visible"
+      }
+    },
+    {
+      "id": "s5-login-button-visible",
+      "sourceStepIds": ["ts-1"],
+      "description": "The Log in button is displayed",
+      "action": "assert",
+      "target": {
+        "page": "LoginPage",
+        "element": "loginButton"
+      },
+      "assertion": {
+        "condition": "visible"
+      }
+    },
+    {
+      "id": "s6-fill-username",
+      "sourceStepIds": ["ts-2"],
+      "description": "Enter the username in the Username field",
+      "action": "fill",
+      "target": {
+        "page": "LoginPage",
+        "element": "usernameInput"
+      },
+      "value": {
+        "kind": "param",
+        "name": "username"
+      }
+    },
+    {
+      "id": "s7-username-value",
+      "sourceStepIds": ["ts-2"],
+      "description": "The Username field contains the entered username",
+      "action": "assert",
+      "target": {
+        "page": "LoginPage",
+        "element": "usernameInput"
+      },
+      "assertion": {
+        "condition": "valueEquals",
+        "expected": "kienpham"
+      }
+    },
+    {
+      "id": "s8-fill-password",
+      "sourceStepIds": ["ts-3"],
+      "description": "Enter the password in the Password field",
+      "action": "fill",
+      "target": {
+        "page": "LoginPage",
+        "element": "passwordInput"
+      },
+      "value": {
+        "kind": "secret",
+        "name": "password"
+      }
+    },
+    {
+      "id": "s9-password-masked",
+      "sourceStepIds": ["ts-3"],
+      "description": "The Password field masks its value",
+      "action": "assert",
+      "target": {
+        "page": "LoginPage",
+        "element": "passwordInput"
+      },
+      "assertion": {
+        "condition": "attributeEquals",
+        "expected": "password",
+        "attribute": "type"
+      }
+    },
+    {
+      "id": "s10-fill-company",
+      "sourceStepIds": ["ts-4"],
+      "description": "Enter the company code in the Company Code field",
+      "action": "fill",
+      "target": {
+        "page": "LoginPage",
+        "element": "companyCodeInput"
+      },
+      "value": {
+        "kind": "param",
+        "name": "companyCode"
+      }
+    },
+    {
+      "id": "s11-company-value",
+      "sourceStepIds": ["ts-4"],
+      "description": "The Company Code field contains the entered code",
+      "action": "assert",
+      "target": {
+        "page": "LoginPage",
+        "element": "companyCodeInput"
+      },
+      "assertion": {
+        "condition": "valueEquals",
+        "expected": "Impex"
+      }
+    },
+    {
+      "id": "s12-click-login",
+      "sourceStepIds": ["ts-5"],
+      "description": "Click the Log in button",
+      "action": "click",
+      "target": {
+        "page": "LoginPage",
+        "element": "loginButton"
+      }
+    },
+    {
+      "id": "s13-home-loaded",
+      "sourceStepIds": ["ts-5"],
+      "description": "The Home page is displayed",
+      "action": "waitFor",
+      "target": {
+        "page": "HomePage",
+        "element": "root"
+      },
+      "assertion": {
+        "condition": "visible"
+      }
+    },
+    {
+      "id": "s14-left-login",
+      "sourceStepIds": ["ts-5"],
+      "description": "The Login page is left",
+      "action": "assert",
+      "target": {
+        "page": "HomePage"
+      },
+      "assertion": {
+        "condition": "urlMatches",
+        "expected": "^(?!.*/login).*$"
+      }
+    }
+  ],
+  "teardown": []
+}

@@ -1,0 +1,12 @@
+{
+  "engine": "playwright",
+  "adapterVersion": "0.1.0",
+  "conventions": {
+    "layout": "page-object-model",
+    "tests": "tests/<area>/<case>.spec.ts",
+    "pages": "pages/<Name>Page.ts",
+    "flows": "flows/<name>.flow.ts",
+    "parameters": "fixtures/environment.ts"
+  },
+  "browsers": ["chromium"]
+}
