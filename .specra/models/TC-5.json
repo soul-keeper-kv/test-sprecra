@@ -1,0 +1,201 @@
+{
+  "irVersion": 1,
+  "name": "Verify user logs in successfully with valid credentials",
+  "description": "Verify that a user holding valid, active credentials is authenticated and lands on the Home page.",
+  "tags": ["authentication", "login", "sample"],
+  "parameters": [
+    {
+      "name": "username",
+      "type": "string",
+      "required": true,
+      "secret": false,
+      "description": "The account used to sign in."
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "required": true,
+      "secret": true,
+      "description": "That account's password; supplied by the environment at run time."
+    },
+    {
+      "name": "displayName",
+      "type": "string",
+      "required": true,
+      "secret": false,
+      "description": "The name the header shows once signed in."
+    }
+  ],
+  "setup": [],
+  "steps": [
+    {
+      "id": "s1",
+      "sourceStepIds": ["ts-1"],
+      "description": "Open the Login page",
+      "action": "navigate",
+      "target": {
+        "page": "LoginPage"
+      }
+    },
+    {
+      "id": "s2",
+      "sourceStepIds": ["ts-1"],
+      "description": "The Username field is visible",
+      "action": "assert",
+      "target": {
+        "page": "LoginPage",
+        "element": "usernameInput"
+      },
+      "assertion": {
+        "condition": "visible"
+      }
+    },
+    {
+      "id": "s3",
+      "sourceStepIds": ["ts-1"],
+      "description": "The Password field is visible",
+      "action": "assert",
+      "target": {
+        "page": "LoginPage",
+        "element": "passwordInput"
+      },
+      "assertion": {
+        "condition": "visible"
+      }
+    },
+    {
+      "id": "s4",
+      "sourceStepIds": ["ts-1"],
+      "description": "The Remember me checkbox is visible",
+      "action": "assert",
+      "target": {
+        "page": "LoginPage",
+        "element": "rememberMeCheckbox"
+      },
+      "assertion": {
+        "condition": "visible"
+      }
+    },
+    {
+      "id": "s5",
+      "sourceStepIds": ["ts-1"],
+      "description": "The Login button is visible",
+      "action": "assert",
+      "target": {
+        "page": "LoginPage",
+        "element": "submitButton"
+      },
+      "assertion": {
+        "condition": "visible"
+      }
+    },
+    {
+      "id": "s6",
+      "sourceStepIds": ["ts-2"],
+      "description": "Enter the username",
+      "action": "fill",
+      "target": {
+        "page": "LoginPage",
+        "element": "usernameInput"
+      },
+      "value": {
+        "kind": "param",
+        "name": "username"
+      }
+    },
+    {
+      "id": "s7",
+      "sourceStepIds": ["ts-2"],
+      "description": "Enter the password",
+      "action": "fill",
+      "target": {
+        "page": "LoginPage",
+        "element": "passwordInput"
+      },
+      "value": {
+        "kind": "secret",
+        "name": "password"
+      }
+    },
+    {
+      "id": "s8",
+      "sourceStepIds": ["ts-2"],
+      "description": "The Username field holds what was typed",
+      "action": "assert",
+      "target": {
+        "page": "LoginPage",
+        "element": "usernameInput"
+      },
+      "assertion": {
+        "condition": "valueEquals",
+        "expected": "qa.user01"
+      }
+    },
+    {
+      "id": "s9",
+      "sourceStepIds": ["ts-2"],
+      "description": "The password is masked",
+      "action": "assert",
+      "target": {
+        "page": "LoginPage",
+        "element": "passwordInput"
+      },
+      "assertion": {
+        "condition": "attributeEquals",
+        "expected": "password",
+        "attribute": "type"
+      }
+    },
+    {
+      "id": "s10",
+      "sourceStepIds": ["ts-3"],
+      "description": "Click the Login button",
+      "action": "click",
+      "target": {
+        "page": "LoginPage",
+        "element": "submitButton"
+      }
+    },
+    {
+      "id": "s11",
+      "sourceStepIds": ["ts-3"],
+      "description": "Wait for the Home page header to appear",
+      "action": "waitFor",
+      "target": {
+        "page": "HomePage",
+        "element": "headerUserName"
+      },
+      "assertion": {
+        "condition": "visible"
+      }
+    },
+    {
+      "id": "s12",
+      "sourceStepIds": ["ts-3"],
+      "description": "The browser is on the Home page",
+      "action": "assert",
+      "target": {
+        "page": "HomePage"
+      },
+      "assertion": {
+        "condition": "urlMatches",
+        "expected": "^.*/(home|dashboard)?/?$"
+      }
+    },
+    {
+      "id": "s13",
+      "sourceStepIds": ["ts-3"],
+      "description": "The header shows the display name",
+      "action": "assert",
+      "target": {
+        "page": "HomePage",
+        "element": "headerUserName"
+      },
+      "assertion": {
+        "condition": "textEquals",
+        "expected": "qa.user01"
+      }
+    }
+  ],
+  "teardown": []
+}
